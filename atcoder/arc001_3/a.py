@@ -29,6 +29,28 @@ def check(cs):
     return True
 
 
+def loop(i, cs):
+    if i == 8 and len(qs) == 8:
+        print("\n".join(["".join(c) for c in cs]))
+        exit()
+
+    if 'Q' in cs[i]:
+        loop(i+1, cs)
+
+    cst = deepcopy(cs)
+
+    for j in range(8):
+        if cs[i][j] == '.':
+            fill(cs, [i, j])
+            if check(cs):
+                # add Q to map
+                qs.append([i, j])
+                loop(i+1, cs)
+            else:
+                # revert map
+                cs = cst
+
+
 # init map
 for i in range(8):
     cs[i] = list(input())
@@ -41,31 +63,7 @@ for i in range(8):
 for q in qs:
     fill(cs, q)
 
-if not check(cs):
-    print("No Answer")
-    exit()
 
-# add Q for each col
-for i in range(8):
-    if 'Q' in cs[i]:
-        continue
-
-    # store current map
-    cst = deepcopy(cs)
-
-    for j in range(8):
-        if cs[i][j] == '.':
-            fill(cs, [i, j])
-            if check(cs):
-                # add Q to map
-                qs.append([i, j])
-                break
-            else:
-                # revert map
-                cs = cst
-
-# output
-if not check(cs):
-    print("No Answer")
-else:
-    print("\n".join(["".join(c) for c in cs]))
+# join the loop
+loop(0, cs)
+print("No Answer")

@@ -12,22 +12,31 @@
 9=10+1-
 """
 
-i = input().split(' ')
-a = int(i[0])
-b = int(i[1])
-cnt = 0
-gap = abs(b - a)
 
-cnt += gap // 10
-gap %= 10
+class Remote:
 
-rem = gap % 5
-if(rem > 2):
-    rem = 5 - rem
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+        self.cnt = 0
+        self.calc()
 
-cnt += rem
+    def calc(self):
+        gap = abs(self.b - self.a)
+        self.cnt += gap // 10
+        gap %= 10
 
-if(gap > 2):
-    cnt += 1
+        rem = gap % 5
+        if(rem > 2):
+            rem = 5 - rem
 
-print(cnt)
+        self.cnt += rem
+
+        if(gap > 2):
+            self.cnt += 1
+
+
+if __name__ == '__main__':
+    ipt = input().split(' ')
+    r = Remote(int(ipt[0]), int(ipt[1]))
+    print(r.cnt)

@@ -33,7 +33,8 @@ class CrazyBot:
         return result
 
 
-cb = CrazyBot()
-print(cb.getProbability(1, 25, 25, 25, 25))  # 1.0
-print(cb.getProbability(2, 25, 25, 25, 25))  # 0.75
-print(cb.getProbability(7, 50,  0,  0, 50))  # 1.0
+if __name__ == '__main__':
+    cb = CrazyBot()
+    print(cb.getProbability(1, 25, 25, 25, 25))  # 1.0
+    print(cb.getProbability(2, 25, 25, 25, 25))  # 0.75
+    print(cb.getProbability(7, 50,  0,  0, 50))  # 1.0

@@ -1,26 +1,10 @@
 #!/usr/bin/env python
 
 
-class TwistedQs:
+class Queen:
 
     def __init__(self):
         self.map = [['.' for i in range(8)] for j in range(8)]
-
-        # init first Qs
-        for i in range(8):
-            ipt = input()
-            for j in range(8):
-                if ipt[j] == 'Q':
-                    if self.search(i, j):
-                        self.map[i][ipt.index('Q')] = 'Q'
-                    else:
-                        print('No Answer')
-                        exit()
-
-        if self.setQ(0):
-            print("\n".join(["".join(cx) for cx in self.map]))
-        else:
-            print('No Answer')
 
     def setQ(self, i):
         if i > 7:
@@ -57,4 +41,22 @@ class TwistedQs:
         return True
 
 
-TwistedQs()
+if __name__ == '__main__':
+    q = Queen()
+
+    for i in range(8):
+        ipt = input()
+        # use for-loop in case more than one Qs in same row
+        for j in range(8):
+            if ipt[j] == 'Q':
+                # check if invalid
+                if q.search(i, j):
+                    q.map[i][j] = 'Q'
+                else:
+                    print('No Answer')
+                    exit()
+
+    if q.setQ(0):
+        print("\n".join(["".join(mx) for mx in q.map]))
+    else:
+        print('No Answer')

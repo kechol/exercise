@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 
 class FightCommand:
 
@@ -38,6 +39,7 @@ class FightCommand:
 
 
 if __name__ == '__main__':
+    sys.setrecursionlimit(int(10e8))
     n = int(input())
     c = input()
     fc = FightCommand(n, c)

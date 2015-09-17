@@ -18,7 +18,7 @@ class BoardGame:
         return False
 
     def move(self, p, d):
-        print("\n".join(["".join(self.board[i]) for i in range(self.h)]), "\n")
+#        print("\n".join(["".join(self.board[i]) for i in range(self.h)]), "\n")
 
         dist = self.w
         coor = [0, 0]
@@ -30,7 +30,6 @@ class BoardGame:
             rng = range(0, self.w+d) if (d < 0) else range(d, self.w)
             for j in rng:
                 if self.board[i][j] == p:
-                    print(p, [i, j])
 
                     tdist = j if d < 0 else self.w - j - 1
                     if self.board[i][j+d] == '.' and dist > tdist:

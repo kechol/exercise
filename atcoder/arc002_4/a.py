@@ -23,16 +23,15 @@ class BoardGame:
         dist = self.w
         coor = [0, 0]
         movable = False
+
         for i in range(self.h):
             if self.board[i][0] == 'x' or self.board[i][w-1] == 'o':
                 return False
 
-            rng = range(0, self.w+d) if (d < 0) else range(d, self.w)
-            for j in rng:
+            for j in range(0, self.w):
                 if self.board[i][j] == p:
-
                     tdist = j if d < 0 else self.w - j - 1
-                    if self.board[i][j+d] == '.' and dist > tdist:
+                    if self.board[i][j+d] != p and dist > tdist:
                         if (d > 0 and j+d*2 > self.w - 1) or \
                            (d < 0 and j+d*2 < 0) or \
                            self.board[i][j+d*2] in ['.', p]:

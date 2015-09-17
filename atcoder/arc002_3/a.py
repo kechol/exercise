@@ -2,6 +2,7 @@
 
 import sys
 
+
 class FightCommand:
 
     def __init__(self, n, command):

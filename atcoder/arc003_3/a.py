@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import sys
+
 
 class DarkWayHome:
 
@@ -7,48 +9,62 @@ class DarkWayHome:
         self.n = n
         self.m = m
         self.cs = cs
-        self.light = 0.0
-        self.p = [0, 0]
+        self.light = 10.0
+        self.goal = False
 
-        self.p = self.start_point()
-        self.move(0)
+        sp = self.start_point()
+        self.move(sp, 0, 9)
 
     def start_point(self):
         for i in range(self.n):
             if 's' in self.cs[i]:
                 return [i, self.cs[i].index('s')]
 
-    def move(self, t):
-        print("\n".join(["".join(c) for c in self.cs]), "\n")
+    def move(self, p, t, n):
+        if n < 1:
+            return
+
+        if t > 0:
+            tl = float(self.cs[p[0]][p[1]]) * (0.99 ** t)
+            if tl < self.light:
+                self.light = tl
+
+        # print("\n".join(["".join(c) for c in self.cs]), "\n", t, n, self.light, "\n")
 
         ds = [[1, 0], [-1, 0], [0, -1], [0, 1]]
-        l = 0.0
-        np = [0, 0]
 
-        for d in ds:
-            tnp = [self.p[0]+d[0], self.p[1]+d[1]]
+        for i, d in enumerate(ds):
+            np = [p[0]+d[0], p[1]+d[1]]
 
-            if tnp[0] < 0 or tnp[0] >= n or tnp[1] < 0 or tnp[1] >= m:
+            # out of bounds
+            if np[0] < 0 or np[0] >= self.n or np[1] < 0 or np[1] >= self.m:
                 continue
 
-            if self.cs[tnp[0]][tnp[1]] == '#' or self.cs[tnp[0]][tnp[1]] == 's':
-                continue
-
-            if self.cs[tnp[0]][tnp[1]] == 'g':
+            # goal
+            if self.cs[np[0]][np[1]] == 'g':
+                self.goal = True
                 return
 
-            tl = float(self.cs[tnp[0]][tnp[1]]) * (0.99 ** t)
-            if l < tl:
-                l = tl
-                np = tnp
+            # not a way
+            if self.cs[np[0]][np[1]] == '#' or self.cs[np[0]][np[1]] == 's':
+                continue
 
-        self.cs[np[0]][np[1]] = '#'
-        self.light = l
-        self.p = np
-        self.move(t+1)
+            # prohibited way
+            tnn = int(self.cs[np[0]][np[1]])
+            if tnn < n:
+                continue
+
+            tn = self.cs[p[0]][p[1]]
+            self.cs[p[0]][p[1]] = '#'
+            self.move(np, t+1, tnn)
+            self.cs[p[0]][p[1]] = tn
+
+        if not self.goal:
+            self.move(p, t, n-1)
 
 
 if __name__ == '__main__':
+    sys.setrecursionlimit(int(10e8))
     ipt = input().split(' ')
     n = int(ipt[0])
     m = int(ipt[1])

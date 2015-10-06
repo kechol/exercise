@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import math
 
 
 class TaroHeikinchi:
@@ -8,38 +9,30 @@ class TaroHeikinchi:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.n = 0
-        self.m = 0
+        self.rs = []
 
     def solve(self):
         xpy = self.x / self.y
+        tn = 2 * xpy
 
-        if xpy < 1:
+        if tn < 1:
             return False
 
-        sm = 0
-        for i in range(1, self.x + 1):
-            sm += i
-            # print('i', i, 'sm', sm)
-            if (sm / i) - 1 > xpy:
-                self.n = i
-                break
-
-        for i in range(self.n, 0, -1):
-            sm = sum(range(i+1))
-
-            if sm / i - 1 > xpy:
+        for n in range(math.floor(tn) - 1, math.ceil(tn) + 2):
+            if n % self.y > 0:
                 continue
 
-            for j in range(i, 0, -1):
-                r = (sm - j) / i
-                # print('n', i, 'm', j, 'r', r)
-                if r == xpy:
-                    self.n = i
-                    self.m = j
-                    return True
+            sm = n * (n + 1) / 2
+            m = sm - n * xpy
 
-        return False
+            # print('n', n, 'm', m, 'sm', sm)
+
+            if m < 1:
+                continue
+
+            self.rs.append((int(n), int(m)))
+
+        return len(self.rs) > 0
 
 
 if __name__ == '__main__':
@@ -47,6 +40,7 @@ if __name__ == '__main__':
     x, y = [int(i) for i in input().split('/')]
     th = TaroHeikinchi(x, y)
     if th.solve():
-        print(th.n, th.m)
+        for r in th.rs:
+            print(r[0], r[1])
     else:
         print('Impossible')
